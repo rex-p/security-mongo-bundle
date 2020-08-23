@@ -32,7 +32,7 @@ kernel.addBundle(
 
 ## Overriding
 
-You have the option to make changes to your collection, for example if you user is linked to other collections or you simply want a different collectio name:
+You have the option to make changes to your collections, for example if you user is linked to other collections or you simply want a different collectioName:
 
 ```typescript
 import {
@@ -47,7 +47,7 @@ interface IAppUser extends IUser {
 }
 
 class AppUsersCollection extends UsersCollection<IAppUser> {
-  static collectionName = "User"; // override it, by default it's users
+  static collectionName = "User"; // override it, by default it's "users"
 
   static links = {
     profile: {

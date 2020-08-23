@@ -77,13 +77,13 @@ export class UsersCollection extends Collection<IUser>
   }
 
   async findThroughAuthenticationStrategy<T = any>(
-    methodName: string,
+    strategyName: string,
     filters: any,
     fields?: IFieldMap
   ): Promise<FindAuthenticationStrategyResponse<T>> {
     const methodFilters = {};
-    for (const key of filters) {
-      methodFilters[`${methodName}.${key}`] = filters[key];
+    for (const key in filters) {
+      methodFilters[`${strategyName}.${key}`] = filters[key];
     }
 
     // TODO: projection
@@ -91,13 +91,13 @@ export class UsersCollection extends Collection<IUser>
 
     return {
       userId: result._id,
-      method: result[methodName],
+      strategy: result[strategyName],
     };
   }
 
   async getAuthenticationStrategyData<T = any>(
     userId: any,
-    methodName: string,
+    strategyName: string,
     projection?: IFieldMap
   ): Promise<T> {
     // TODO: implement projection
@@ -105,12 +105,12 @@ export class UsersCollection extends Collection<IUser>
       { _id: userId },
       {
         projection: {
-          [methodName]: 1,
+          [strategyName]: 1,
         },
       }
     );
 
-    return user ? user[methodName] : null;
+    return user ? user[strategyName] : null;
   }
 
   async removeAuthenticationStrategyData(

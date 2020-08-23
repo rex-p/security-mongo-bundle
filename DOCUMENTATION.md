@@ -1,17 +1,6 @@
-<h1 align="center">KAVIAR SECURITY-MONGO-BUNDLE</h1>
-
-<p align="center">
-  <a href="https://travis-ci.org/kaviarjs/security-mongo-bundle">
-    <img src="https://api.travis-ci.org/kaviarjs/security-mongo-bundle.svg?branch=master" />
-  </a>
-  <a href="https://coveralls.io/github/kaviarjs/security-mongo-bundle?branch=master">
-    <img src="https://coveralls.io/repos/github/kaviarjs/security-mongo-bundle/badge.svg?branch=master" />
-  </a>
-</p>
-
 In this bundle we're overriding the persistence layers from SecurityBundle to make them work with MongoBundle.
 
-## Installation
+## Install
 
 ```bash
 npm i -S @kaviar/security-bundle @kaviar-security-mongo-bundle
@@ -20,14 +9,20 @@ npm i -S @kaviar/security-bundle @kaviar-security-mongo-bundle
 ```js
 import { SecurityBundle } from "@kaviar/security-bundle";
 import { SecurityMongoBundle } from "@kaviar/security-mongo-bundle";
+import { MongoBundle } from "@kaviar/mongo-bundle";
 
-kernel.addBundle(
+kernel.addBundles([
+  // Make sure you have both security and mongo bundle in your kernel
   new SecurityBundle({
     // options
   }),
+  new MongoBundle({
+    uri: "your mongo url",
+  }),
+
   // Order doesn't really matter.
-  new SecurityMongoBundle()
-);
+  new SecurityMongoBundle(),
+]);
 ```
 
 ## Overriding

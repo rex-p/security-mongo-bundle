@@ -1,7 +1,7 @@
 import {
   IPermissionPersistance,
   IPermission,
-  PermissionSearchFilters,
+  IPermissionSearchFilters,
 } from "@kaviar/security-bundle";
 import { Collection } from "@kaviar/mongo-bundle";
 
@@ -17,21 +17,23 @@ export class PermissionsCollection extends Collection<IPermission>
     });
   }
 
-  async removePermission(filters: PermissionSearchFilters): Promise<void> {
+  async removePermission(filters: IPermissionSearchFilters): Promise<void> {
     await this.deleteMany(this.createMongoFilters(filters));
   }
 
-  async countPermissions(filters: PermissionSearchFilters): Promise<number> {
+  async countPermissions(filters: IPermissionSearchFilters): Promise<number> {
     return this.find(this.createMongoFilters(filters)).count();
   }
 
   async findPermissions(
-    filters: PermissionSearchFilters
+    filters: IPermissionSearchFilters
   ): Promise<IPermission[]> {
     return this.find(this.createMongoFilters(filters)).toArray();
   }
 
-  async findPermission(filters: PermissionSearchFilters): Promise<IPermission> {
+  async findPermission(
+    filters: IPermissionSearchFilters
+  ): Promise<IPermission> {
     return this.findOne(this.createMongoFilters(filters));
   }
 
@@ -63,7 +65,7 @@ export class PermissionsCollection extends Collection<IPermission>
    * @param userId
    * @param search
    */
-  protected createMongoFilters(filters: PermissionSearchFilters) {
+  protected createMongoFilters(filters: IPermissionSearchFilters) {
     let mongoFilters: any = {};
     const { userId, domain, domainIdentifier, permission } = filters;
 
