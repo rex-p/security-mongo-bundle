@@ -1,9 +1,14 @@
-import { Bundle, EventManager, BundleBeforePrepareEvent } from "@kaviar/core";
+import {
+  Bundle,
+  EventManager,
+  BundleBeforePrepareEvent,
+  Constructor,
+} from "@kaviar/core";
 import { SecurityBundle } from "@kaviar/security-bundle";
 import { UsersCollection } from "./collections/Users.collection";
 import { PermissionsCollection } from "./collections/Permissions.collection";
-import { ObjectID } from "@kaviar/mongo-bundle";
 import { SessionsCollection } from "./collections/Sessions.collection";
+import { USERS_COLLECTION } from "./constants";
 
 interface ISecurityMongoBundleConfig {
   usersCollection?: typeof UsersCollection;
@@ -44,5 +49,12 @@ export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
         }
       }
     );
+  }
+
+  async prepare() {
+    this.container.set({
+      id: USERS_COLLECTION,
+      type: this.config.usersCollection,
+    });
   }
 }
