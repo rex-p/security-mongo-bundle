@@ -1,8 +1,7 @@
 {
   "name": "@kaviar/security-mongo-bundle",
   "version": "1.0.0",
-  "private": true,
-  "description": "Persistance layer using MongoDB for Kaviar SecurityBundle.",
+  "description": "Persistance layer using MongoDB for KaviarJS Security",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
