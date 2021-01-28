@@ -17,7 +17,7 @@ interface ISecurityMongoBundleConfig {
 }
 
 export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
-  readonly dependencies = [SecurityBundle];
+  dependencies = [SecurityBundle];
 
   protected defaultConfig = {
     usersCollection: UsersCollection,
