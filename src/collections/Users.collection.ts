@@ -6,7 +6,8 @@ import {
 } from "@kaviar/security-bundle";
 import { Collection, ObjectID, Behaviors } from "@kaviar/mongo-bundle";
 
-export class UsersCollection extends Collection<IUser>
+export class UsersCollection
+  extends Collection<IUser>
   implements IUserPersistance {
   static collectionName = "users";
 
@@ -62,7 +63,7 @@ export class UsersCollection extends Collection<IUser>
       methodName
     );
 
-    let current = authMethod ? authMethod : {};
+    const current = authMethod ? authMethod : {};
 
     Object.assign(current, data);
 
@@ -80,7 +81,7 @@ export class UsersCollection extends Collection<IUser>
     strategyName: string,
     filters: any,
     fields?: IFieldMap
-  ): Promise<FindAuthenticationStrategyResponse<T>> {
+  ): Promise<FindAuthenticationStrategyResponse<T> | null> {
     const methodFilters = {};
     for (const key in filters) {
       methodFilters[`${strategyName}.${key}`] = filters[key];
@@ -88,6 +89,10 @@ export class UsersCollection extends Collection<IUser>
 
     // TODO: projection
     const result = await this.findOne(methodFilters);
+
+    if (!result) {
+      return null;
+    }
 
     return {
       userId: result._id,
@@ -97,8 +102,7 @@ export class UsersCollection extends Collection<IUser>
 
   async getAuthenticationStrategyData<T = any>(
     userId: any,
-    strategyName: string,
-    projection?: IFieldMap
+    strategyName: string
   ): Promise<T> {
     // TODO: implement projection
     const user = await this.findOne(
