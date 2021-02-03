@@ -5,7 +5,8 @@ import {
 } from "@kaviar/security-bundle";
 import { Collection } from "@kaviar/mongo-bundle";
 
-export class PermissionsCollection extends Collection<IPermission>
+export class PermissionsCollection<T extends IPermission>
+  extends Collection<T>
   implements IPermissionPersistance {
   static collectionName = "permissions";
 

@@ -8,13 +8,14 @@ import {
 } from "@kaviar/security-bundle";
 import { Collection, ObjectID, Behaviors } from "@kaviar/mongo-bundle";
 
-export class SessionsCollection extends Collection<ISession>
+export class SessionsCollection<T extends ISession>
+  extends Collection<ISession>
   implements ISessionPersistance {
   static collectionName = "sessions";
 
   async newSession(userId: any, expiresAt: Date, data?: any): Promise<string> {
     const session = {
-      _id: generateToken(32),
+      token: generateToken(32),
       userId,
       expiresAt,
     };
@@ -30,13 +31,13 @@ export class SessionsCollection extends Collection<ISession>
 
   async getSession(token: string): Promise<ISession> {
     return this.findOne({
-      _id: token,
+      token,
     });
   }
 
   async deleteSession(token: string): Promise<void> {
     await this.deleteOne({
-      _id: token,
+      token,
     });
   }
 

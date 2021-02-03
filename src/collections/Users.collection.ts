@@ -4,10 +4,10 @@ import {
   IUser,
   FindAuthenticationStrategyResponse,
 } from "@kaviar/security-bundle";
-import { Collection, ObjectID, Behaviors } from "@kaviar/mongo-bundle";
+import { Collection, Behaviors } from "@kaviar/mongo-bundle";
 
-export class UsersCollection
-  extends Collection<IUser>
+export class UsersCollection<T extends IUser>
+  extends Collection<T>
   implements IUserPersistance {
   static collectionName = "users";
 
@@ -67,14 +67,11 @@ export class UsersCollection
 
     Object.assign(current, data);
 
-    await this.updateOne(
-      { _id: userId },
-      {
-        $set: {
-          [methodName]: current,
-        },
-      }
-    );
+    await this.updateOne({ _id: userId }, {
+      $set: {
+        [methodName]: current,
+      },
+    } as any);
   }
 
   async findThroughAuthenticationStrategy<T = any>(
@@ -121,13 +118,10 @@ export class UsersCollection
     userId: any,
     methodName: string
   ): Promise<void> {
-    await this.updateOne(
-      { _id: userId },
-      {
-        $unset: {
-          [methodName]: 1,
-        },
-      }
-    );
+    await this.updateOne({ _id: userId }, {
+      $unset: {
+        [methodName]: 1,
+      },
+    } as any);
   }
 }
