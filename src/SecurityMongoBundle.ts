@@ -3,6 +3,7 @@ import {
   EventManager,
   BundleBeforePrepareEvent,
   Constructor,
+  BundleAfterInitEvent,
 } from "@kaviar/core";
 import {
   IPermissionPersistance,
@@ -14,9 +15,7 @@ import { UsersCollection } from "./collections/Users.collection";
 import { PermissionsCollection } from "./collections/Permissions.collection";
 import { SessionsCollection } from "./collections/Sessions.collection";
 import { USERS_COLLECTION } from "./constants";
-import { BundleAfterInitEvent } from "../../core/src/events";
-import { MongoBundle } from "../../mongo-bundle/src/MongoBundle";
-import { Collection } from "@kaviar/mongo-bundle";
+import { Collection, MongoBundle } from "@kaviar/mongo-bundle";
 
 export interface ISecurityMongoBundleConfig {
   usersCollection?: Constructor<IUserPersistance>;
