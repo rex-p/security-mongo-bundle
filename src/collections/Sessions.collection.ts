@@ -13,6 +13,14 @@ export class SessionsCollection<T extends ISession>
   implements ISessionPersistance {
   static collectionName = "sessions";
 
+  static indexes = [
+    {
+      key: {
+        token: 1,
+      },
+    },
+  ];
+
   async newSession(userId: any, expiresAt: Date, data?: any): Promise<string> {
     const session = {
       token: generateToken(32),
