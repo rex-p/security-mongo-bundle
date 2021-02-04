@@ -4,16 +4,24 @@ import {
   BundleBeforePrepareEvent,
   Constructor,
 } from "@kaviar/core";
-import { SecurityBundle } from "@kaviar/security-bundle";
+import {
+  IPermissionPersistance,
+  ISessionPersistance,
+  IUserPersistance,
+  SecurityBundle,
+} from "@kaviar/security-bundle";
 import { UsersCollection } from "./collections/Users.collection";
 import { PermissionsCollection } from "./collections/Permissions.collection";
 import { SessionsCollection } from "./collections/Sessions.collection";
 import { USERS_COLLECTION } from "./constants";
+import { BundleAfterInitEvent } from "../../core/src/events";
+import { MongoBundle } from "../../mongo-bundle/src/MongoBundle";
+import { Collection } from "@kaviar/mongo-bundle";
 
-interface ISecurityMongoBundleConfig {
-  usersCollection?: typeof UsersCollection;
-  permissionsCollection?: typeof PermissionsCollection;
-  sessionsCollection?: typeof SessionsCollection;
+export interface ISecurityMongoBundleConfig {
+  usersCollection?: Constructor<IUserPersistance>;
+  permissionsCollection?: Constructor<IPermissionPersistance>;
+  sessionsCollection?: Constructor<ISessionPersistance>;
 }
 
 export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
@@ -49,6 +57,14 @@ export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
         }
       }
     );
+
+    manager.addListener(BundleAfterInitEvent, (e) => {
+      if (e.data.bundle instanceof MongoBundle) {
+        this.warmup(
+          Object.values(this.config).filter((v) => v instanceof Collection)
+        );
+      }
+    });
   }
 
   async prepare() {
