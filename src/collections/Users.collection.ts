@@ -47,6 +47,9 @@ export class UsersCollection<T extends IUser>
     const options: any = {};
     if (projection) {
       options.projection = projection;
+      if (!options.projection._id) {
+        options.projection._id = 1;
+      }
     }
 
     return this.findOne({ _id: userId }, options);

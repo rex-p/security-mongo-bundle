@@ -21,20 +21,26 @@ export class SessionsCollection<T extends ISession>
     },
   ];
 
+  /**
+   * Creates the session with the token and returns the token
+   * @param userId
+   * @param expiresAt
+   * @param data
+   */
   async newSession(userId: any, expiresAt: Date, data?: any): Promise<string> {
     const session = {
-      token: generateToken(32),
+      token: generateToken(64),
       userId,
       expiresAt,
     };
 
     if (data) {
-      Object.assign(session, data);
+      Object.assign(session, { data });
     }
 
-    const sessionInsertion = await this.insertOne(session);
+    await this.insertOne(session);
 
-    return sessionInsertion.insertedId;
+    return session.token;
   }
 
   async getSession(token: string): Promise<ISession> {

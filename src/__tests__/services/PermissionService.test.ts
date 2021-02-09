@@ -1,15 +1,13 @@
 import { SecurityService, PermissionService } from "@kaviar/security-bundle";
 import { permissionServiceTestDefinitions } from "@kaviar/security-bundle/dist/__tests__/reusable";
-import { createEcosystem } from "../ecosystem";
+import { ecosystem } from "../ecosystem";
 
-describe("PermissionService", () => {
-  permissionServiceTestDefinitions.forEach(({ message, test }) => {
-    it(message, async () => {
-      const { container, teardown } = await createEcosystem();
-      const service = container.get(PermissionService);
+permissionServiceTestDefinitions.forEach(({ message, test: testFunction }) => {
+  test(`[Permissions] ${message}`, async () => {
+    const { container, teardown, cleanup } = await ecosystem;
+    const service = container.get(PermissionService);
 
-      await test(service);
-      await teardown();
-    });
+    await testFunction(service);
+    await cleanup();
   });
 });
