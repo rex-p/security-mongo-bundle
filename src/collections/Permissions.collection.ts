@@ -10,8 +10,8 @@ export class PermissionsCollection<T extends IPermission>
   implements IPermissionPersistance {
   static collectionName = "permissions";
 
-  async insertPermission(permission: IPermission): Promise<any> {
-    permission = this.getCleanedPermission(permission);
+  async insertPermission(permission: T): Promise<any> {
+    permission = this.getCleanedPermission(permission) as T;
 
     await this.insertOne({
       ...permission,
