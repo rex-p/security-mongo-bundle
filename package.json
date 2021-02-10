@@ -1,6 +1,6 @@
 {
   "name": "@kaviar/security-mongo-bundle",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Persistance layer using MongoDB for KaviarJS Security",
   "main": "dist/index.js",
   "repository": {
