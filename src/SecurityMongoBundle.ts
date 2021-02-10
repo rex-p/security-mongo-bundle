@@ -14,7 +14,11 @@ import {
 import { UsersCollection } from "./collections/Users.collection";
 import { PermissionsCollection } from "./collections/Permissions.collection";
 import { SessionsCollection } from "./collections/Sessions.collection";
-import { USERS_COLLECTION } from "./constants";
+import {
+  USERS_COLLECTION_TOKEN,
+  PERMISSIONS_COLLECTION_TOKEN,
+  SESSIONS_COLLECTION_TOKEN,
+} from "./constants";
 import { Collection, MongoBundle } from "@kaviar/mongo-bundle";
 
 export interface ISecurityMongoBundleConfig {
@@ -68,8 +72,16 @@ export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
 
   async prepare() {
     this.container.set({
-      id: USERS_COLLECTION,
+      id: USERS_COLLECTION_TOKEN,
       type: this.config.usersCollection,
+    });
+    this.container.set({
+      id: PERMISSIONS_COLLECTION_TOKEN,
+      type: this.config.permissionsCollection,
+    });
+    this.container.set({
+      id: SESSIONS_COLLECTION_TOKEN,
+      type: this.config.sessionsCollection,
     });
   }
 }
