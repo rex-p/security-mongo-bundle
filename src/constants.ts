@@ -1,5 +1,11 @@
 import { Token } from "@kaviar/core";
 
-export const USERS_COLLECTION_TOKEN = new Token();
-export const PERMISSIONS_COLLECTION_TOKEN = new Token();
-export const SESSIONS_COLLECTION_TOKEN = new Token();
+export const USERS_COLLECTION_TOKEN = new Token(
+  "SECURITY_MONGO_BUNDLE::USERS_COLLECTION"
+);
+export const PERMISSIONS_COLLECTION_TOKEN = new Token(
+  "SECURITY_MONGO_BUNDLE::PERMSISSIONS_COLLECTION"
+);
+export const SESSIONS_COLLECTION_TOKEN = new Token(
+  "SECURITY_MONGO_BUNDLE::SESSIONS_COLLECTION"
+);
