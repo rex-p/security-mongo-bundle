@@ -2,6 +2,7 @@ import {
   IPermissionPersistance,
   IPermission,
   IPermissionSearchFilters,
+  UserId,
 } from "@kaviar/security-bundle";
 import { Collection } from "@kaviar/mongo-bundle";
 
@@ -38,7 +39,7 @@ export class PermissionsCollection<T extends IPermission>
     return this.findOne(this.createMongoFilters(filters));
   }
 
-  async findDomains(userId: any): Promise<string[]> {
+  async findDomains(userId: UserId): Promise<string[]> {
     // Do a group by and unique via aggregation?
     return this.collection.distinct("domain", {
       userId: userId,

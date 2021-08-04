@@ -3,6 +3,7 @@ import {
   IFieldMap,
   IUser,
   FindAuthenticationStrategyResponse,
+  UserId,
 } from "@kaviar/security-bundle";
 import { Collection, Behaviors } from "@kaviar/mongo-bundle";
 
@@ -13,13 +14,13 @@ export class UsersCollection<T extends IUser>
 
   static behaviors = [Behaviors.Timestampable()];
 
-  async insertUser(data: any): Promise<any> {
+  async insertUser(data: object): Promise<UserId> {
     const result = await this.insertOne(data);
 
     return result.insertedId;
   }
 
-  async updateUser(userId: any, data: any): Promise<void> {
+  async updateUser(userId: UserId, data: any): Promise<void> {
     await this.updateOne(
       {
         _id: userId,
@@ -30,7 +31,7 @@ export class UsersCollection<T extends IUser>
     );
   }
 
-  async deleteUser(userId: any): Promise<void> {
+  async deleteUser(userId: UserId): Promise<void> {
     await this.deleteOne({ _id: userId });
   }
 
@@ -43,7 +44,7 @@ export class UsersCollection<T extends IUser>
     return this.findOne(filters, options);
   }
 
-  async findUserById(userId: any, projection?: IFieldMap): Promise<IUser> {
+  async findUserById(userId: UserId, projection?: IFieldMap): Promise<IUser> {
     const options: any = {};
     if (projection) {
       options.projection = projection;
@@ -56,7 +57,7 @@ export class UsersCollection<T extends IUser>
   }
 
   async updateAuthenticationStrategyData<T = any>(
-    userId: any,
+    userId: UserId,
     methodName: string,
     data: null | Partial<T>
   ): Promise<void> {
@@ -101,7 +102,7 @@ export class UsersCollection<T extends IUser>
   }
 
   async getAuthenticationStrategyData<T = any>(
-    userId: any,
+    userId: UserId,
     strategyName: string
   ): Promise<T> {
     // TODO: implement projection
@@ -118,7 +119,7 @@ export class UsersCollection<T extends IUser>
   }
 
   async removeAuthenticationStrategyData(
-    userId: any,
+    userId: UserId,
     methodName: string
   ): Promise<void> {
     await this.updateOne({ _id: userId }, {

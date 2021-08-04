@@ -5,6 +5,7 @@ import {
   ISession,
   FindAuthenticationStrategyResponse,
   ISessionPersistance,
+  UserId,
 } from "@kaviar/security-bundle";
 import { Collection, ObjectID, Behaviors } from "@kaviar/mongo-bundle";
 
@@ -27,7 +28,11 @@ export class SessionsCollection<T extends ISession>
    * @param expiresAt
    * @param data
    */
-  async newSession(userId: any, expiresAt: Date, data?: any): Promise<string> {
+  async newSession(
+    userId: UserId,
+    expiresAt: Date,
+    data?: any
+  ): Promise<string> {
     const session = {
       token: generateToken(64),
       userId,
@@ -55,7 +60,7 @@ export class SessionsCollection<T extends ISession>
     });
   }
 
-  async deleteAllSessionsForUser(userId: any): Promise<void> {
+  async deleteAllSessionsForUser(userId: UserId): Promise<void> {
     await this.deleteMany({
       userId,
     });
